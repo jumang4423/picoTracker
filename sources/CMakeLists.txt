@@ -5,22 +5,24 @@ set(CMAKE_CXX_STANDARD 23)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE BOOL "Export compile_commands.json")
 
-add_compile_options(
-  -Werror
-  -Wall
-  -Wno-format          # int != int32_t as far as the compiler is concerned because gcc has int32_t as long int
-  -fstack-usage
-  -fcallgraph-info=su # include above info in callgraph
-  -Wstack-usage=2064 # allows high watermark at the time this option was added TODO: reduce this for safety and/or reduce stack size
+if (NOT PC_BUILD)
+  add_compile_options(
+    -Werror
+    -Wall
+    -Wno-format          # int != int32_t as far as the compiler is concerned because gcc has int32_t as long int
+    -fstack-usage
+    -fcallgraph-info=su # include above info in callgraph
+    -Wstack-usage=2064 # allows high watermark at the time this option was added TODO: reduce this for safety and/or reduce stack size
+    
+    # braids
+    -Wno-unused-variable
+    -Wno-array-bounds
   
-  # braids
-  -Wno-unused-variable
-  -Wno-array-bounds
-
-  # stm HAL
-  -Wno-unused-parameter
-  -Wno-missing-field-initializers
-)
+    # stm HAL
+    -Wno-unused-parameter
+    -Wno-missing-field-initializers
+  )
+endif()
 
 if (NOT DEFINED ADV)
   set(ADV false)
@@ -28,7 +30,13 @@ endif()
 
 
 # pico
-if (NOT ${ADV})
+if (PC_BUILD)
+  project(picoTrackerPC C CXX)
+  message("picoTracker PC Build")
+  add_compile_definitions(PC_BUILD=1) # Make it global
+  include_directories(Adapters/PC/platform)
+  add_subdirectory(Adapters/PC)
+elseif (NOT ${ADV})
   set(PICO_SDK_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Externals/pico-sdk)
   # Pull in SDK (must be before project)
   include(pico_sdk_import.cmake)

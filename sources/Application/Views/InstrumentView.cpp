@@ -1191,7 +1191,7 @@ void InstrumentView::handleInstrumentExport() {
 
     if (result == PERSIST_EXISTS) {
       // File already exists, ask user if they want to override it
-      etl::string<strlen("Overwrite existing file: ")> confirmMsg =
+      etl::string<32> confirmMsg =
           "Overwrite existing file?";
       MessageBox *mb = MessageBox::Create(*this, confirmMsg.c_str(),
                                           name.c_str(), MBBF_YES | MBBF_NO);
@@ -1216,7 +1216,7 @@ void InstrumentView::handleInstrumentExport() {
       });
     } else {
       // Create a message with the instrument name
-      etl::string<MAX_INSTRUMENT_NAME_LENGTH + strlen("Exported: ")>
+      etl::string<MAX_INSTRUMENT_NAME_LENGTH + 12>
           successMsg = "Exported: ";
       successMsg += name;
 

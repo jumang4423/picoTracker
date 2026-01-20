@@ -44,7 +44,7 @@ void UIActionField::Draw(GUIWindow &w, int offset) {
 
 void UIActionField::OnClick() {
   SetChanged();
-  NotifyObservers((I_ObservableData *)fourcc_);
+  NotifyObservers((I_ObservableData *)(uintptr_t)fourcc_);
 };
 
 const char *UIActionField::GetString() { return name_; };

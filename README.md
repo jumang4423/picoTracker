@@ -44,9 +44,31 @@ Head over to the [Picotracker Portable Build Guide](docs/BUILD-portable.md)
 
 Head over to the [Build Guide for the original prototype](docs/BUILD.md)
 
-## Remixes
+## Remixe
 
 * @ijnekenamay has created a [custom PCB](https://github.com/ijnekenamay/picotracker_alt-pcb/) for the project using mostly off the shelf components
+
+## PC Build (Development)
+
+The project can be compiled for PC (Windows/Mac/Linux) using SDL2. This is useful for development and testing without hardware.
+
+**Prerequisites:**
+* CMake
+* SDL2 (dev libraries)
+
+**Build:**
+```bash
+mkdir build_pc
+cd build_pc
+cmake -DPC_BUILD=ON ../sources
+make
+```
+
+**Run:**
+```bash
+./Adapters/PC/picoTracker
+```
+
 
 ## Experimental Features
 

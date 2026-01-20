@@ -45,7 +45,11 @@ private:
   // the mix
   stereosample peakMixerLevel_ = 0;
 
+#ifdef PC_BUILD
+  __attribute__((aligned(32))) static fixed renderBuffer_[MAX_SAMPLE_COUNT * 2];
+#else
   __attribute__((section(".DTCMRAM")))
   __attribute__((aligned(32))) static fixed renderBuffer_[MAX_SAMPLE_COUNT * 2];
+#endif
 };
 #endif
